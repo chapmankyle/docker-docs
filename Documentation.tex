@@ -3,10 +3,10 @@
 \usepackage[margin=2.3cm]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage{float}
-\usepackage{graphicx}
-\usepackage{amsmath}
-\usepackage{hyperref}
 \usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
 
 \definecolor{darkblue}{rgb}{0.21, 0.60, 0.86}
 \definecolor{darkgreen}{rgb}{0.15, 0.68, 0.38}
@@ -41,6 +41,52 @@ A \texttt{Dockerfile} is used to create images, and an image is used to deploy
 an application. A container only lives as long as the process inside it is
 alive.
 
+\section{Dockerfile Format}
+
+Given the following \texttt{Dockerfile}:
+
+\begin{verbatim}
+1.  FROM ubuntu
+2.
+3.  RUN apt-get update
+4.  RUN apt-get install python
+5.
+6.  RUN pip install flask
+7.
+8.  COPY . ~/Desktop/Project/docker-files
+9.
+10. ENTRYPOINT FLASK_APP=~/Desktop/Project/docker-files/app.py flask run
+\end{verbatim}
+
+\textbf{Note}:
+\begin{itemize}
+	\item All words in \texttt{CAPS} are \bc{darkorange}{instructions} and all
+	other words represent the \bc{darkyellow}{arguments}.
+	\item Every docker image must be based on another image and the
+	\texttt{Dockerfile} must start with \texttt{FROM}.
+	\item \texttt{COPY} copies files from the local storage onto the Docker
+	container.
+	\item \texttt{ENTRYPOINT} specifies a command that must be run when starting
+	the image in the Docker container.
+	\item All \bc{darkyellow}{arguments} are stored in cache so that if you
+	re-run the \texttt{docker build} command, you don`t need to re-download the
+	necessary files.
+\end{itemize}
+
+Given the following \texttt{Dockerfile}:
+\begin{verbatim}
+1.  FROM ubuntu
+2.
+3.  ENTRYPOINT ["sleep"]
+4.
+5.  CMD ["5"]
+\end{verbatim}
+
+When running \texttt{docker run <appName> <sleepMilli>} with no value given for
+\texttt{sleepMilli}, a default value of \texttt{5} will be used as specified
+by \texttt{CMD}. Otherwise, any value entered for \texttt{sleepMilli} will
+replace the \texttt{5}.
+
 \section{Commands}
 
 Prefix all the following commands with \texttt{\bc{darkblue}{docker}}:
@@ -57,10 +103,29 @@ Examples:
 	running or have exited.
 \end{itemize}
 
+\subsection{history}
+
+Shows all the instructions that were executed as a result of building the image.
+
+\vspace{0.5em}
+Example:
+\begin{itemize}
+	\item \texttt{history <hubUsername>/<appName>} $\Rightarrow$ Shows the
+	layers executed by building the image \texttt{appName}.
+\end{itemize}
+
 \subsection{build}
 
 Builds a docker image using settings from the \texttt{Dockerfile} configuration
 file.
+
+\vspace{0.5em}
+Example:
+\begin{itemize}
+	\item \texttt{build <Dockerfile> -t <hubUsername>/<appName>} $\Rightarrow$
+	Builds a docker image called \texttt{appName} using the configuration found
+	in the \texttt{Dockerfile}.
+\end{itemize}
 
 \subsection{run}
 
@@ -182,6 +247,17 @@ Example:
 \begin{itemize}
 	\item \texttt{logs <containerID>} $\Rightarrow$ Show logs for container
 	with matching ID.
+\end{itemize}
+
+\subsection{push}
+
+Pushes a generated Docker image to the Docker hub.
+
+\vspace{0.5em}
+Example:
+\begin{itemize}
+	\item \texttt{push <hubUsername>/<appName>} $\Rightarrow$ Pushes the
+	generated image to Docker hub with the name \texttt{appName}.
 \end{itemize}
 
 \end{document}
