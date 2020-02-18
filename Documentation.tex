@@ -38,7 +38,8 @@
 \end{figure}
 
 A \texttt{Dockerfile} is used to create images, and an image is used to deploy
-an application. A container only lives as long as the process inside it is alive.
+an application. A container only lives as long as the process inside it is
+alive.
 
 \section{Commands}
 
@@ -52,9 +53,14 @@ Lists all the running containers.
 Examples:
 \begin{itemize}
 	\item \texttt{ps} $\Rightarrow$ List all the running containers.
-	\item \texttt{ps -a} $\Rightarrow$ List all containers that are	currently running or
-	have exited.
+	\item \texttt{ps -a} $\Rightarrow$ List all containers that are currently
+	running or have exited.
 \end{itemize}
+
+\subsection{build}
+
+Builds a docker image using settings from the \texttt{Dockerfile} configuration
+file.
 
 \subsection{run}
 
@@ -66,22 +72,23 @@ Examples:
 \begin{itemize}
 	\item \texttt{run <imageName>} $\Rightarrow$ Runs a specific image
 	in a docker container.
-	\item \texttt{run <imageName>:<versionNumber>} $\Rightarrow$ Runs a specific image with
-	a specific version number. If no version number is provided, defaults to
-	the latest version.
-	\item \texttt{run -d <imageName>} $\Rightarrow$ Runs a specific image in a detached
-	state, i.e. no console output. See \ref{sec:attach} to see console output.
+	\item \texttt{run <imageName>:<versionNumber>} $\Rightarrow$ Runs a specific
+	image with a specific version number. If no version number is provided,
+	defaults to the latest version.
+	\item \texttt{run -d <imageName>} $\Rightarrow$ Runs a specific image in a
+	detached state, i.e. no console output. See \ref{sec:attach} to see console
+	output.
 	\item \texttt{run -p <externalPort>:<internalPort> <imageName>}
-	$\Rightarrow$ Runs a specific image and binds an external port to an internal
-	port, so that users outside of the docker host can access the app using the
-	\texttt{externalPort}, which would redirect to the \texttt{internalPort}
-	inside the docker host.
+	$\Rightarrow$ Runs a specific image and binds an external port to an
+	internal port, so that users outside of the docker host can access the app
+	using the \texttt{externalPort}, which would redirect to the
+	\texttt{internalPort} inside the docker host.
 	\item \texttt{run -v <localDir>:<dockerDir> <imageName>} $\Rightarrow$ Runs
 	a specific image and persists all changes to the \texttt{dockerDir}
 	directory to the \texttt{localDir} directory.
 	\item \texttt{run -it <imageName>} $\Rightarrow$ Runs a specific image in
-	interactive mode (\texttt{-i}) with a pseudo-terminal (\texttt{-t}), allowing
-	for user input.
+	interactive mode (\texttt{-i}) with a pseudo-terminal (\texttt{-t}),
+	allowing for user input.
 \end{itemize}
 
 \subsection{stop}
@@ -91,8 +98,8 @@ Stops the running container that matches the container ID.
 \vspace{0.5em}
 Example:
 \begin{itemize}
-	\item \texttt{stop <containerID>} $\Rightarrow$ Stops the container that matches the
-	container ID.
+	\item \texttt{stop <containerID>} $\Rightarrow$ Stops the container that
+	matches the container ID.
 \end{itemize}
 
 \subsection{rm}
@@ -102,8 +109,8 @@ Removes a container that matches the container ID.
 \vspace{0.5em}
 Example:
 \begin{itemize}
-	\item \texttt{rm <containerID>} $\Rightarrow$ Removes the container that matches the
-	container ID from the local file system.
+	\item \texttt{rm <containerID>} $\Rightarrow$ Removes the container that
+	matches the container ID from the local file system.
 \end{itemize}
 
 \subsection{rmi}
@@ -113,8 +120,8 @@ Removes an image that matches the image name.
 \vspace{0.5em}
 Example:
 \begin{itemize}
-	\item \texttt{rmi <imageName>} $\Rightarrow$ Remove a specific image that has been
-	downloaded.
+	\item \texttt{rmi <imageName>} $\Rightarrow$ Remove a specific image that
+	has been downloaded.
 \end{itemize}
 
 \subsection{images}
@@ -128,8 +135,8 @@ Download a specific docker image from docker hub.
 \vspace{0.5em}
 Example:
 \begin{itemize}
-	\item \texttt{pull <imageName>} $\Rightarrow$ Download the image with the matching image
-	name.
+	\item \texttt{pull <imageName>} $\Rightarrow$ Download the image with the
+	matching image name.
 \end{itemize}
 
 \subsection{exec}
@@ -139,9 +146,9 @@ Executes a command on a docker container.
 \vspace{0.5em}
 Example:
 \begin{itemize}
-	\item \texttt{exec <containerID> <command>} $\Rightarrow$ Executes a specific command
-	on the matching container ID, where \texttt{<command>} can be \texttt{ls -la}
-	as an example.
+	\item \texttt{exec <containerID> <command>} $\Rightarrow$ Executes a
+	specific command on the matching container ID, where \texttt{<command>} can
+	be \texttt{ls -la} as an example.
 \end{itemize}
 
 \subsection{\label{sec:attach}attach}
@@ -151,8 +158,8 @@ Attaches the console to the container ID specified.
 \vspace{0.5em}
 Example:
 \begin{itemize}
-	\item \texttt{attach <containerID>} $\Rightarrow$ Attach a console to the container ID
-	specified.
+	\item \texttt{attach <containerID>} $\Rightarrow$ Attach a console to the
+	container ID specified.
 \end{itemize}
 
 \subsection{inspect}
@@ -162,8 +169,8 @@ Shows detailed information about the container specified.
 \vspace{0.5em}
 Example:
 \begin{itemize}
-	\item \texttt{inspect <containerID>} $\Rightarrow$ Show detailed information about the
-	container with the matching ID.
+	\item \texttt{inspect <containerID>} $\Rightarrow$ Show detailed information
+	about the container with the matching ID.
 \end{itemize}
 
 \subsection{logs}
@@ -173,7 +180,8 @@ Shows the logs of the container that has been specified.
 \vspace{0.5em}
 Example:
 \begin{itemize}
-	\item \texttt{logs <containerID>} $\Rightarrow$ Show logs for container with matching ID.
+	\item \texttt{logs <containerID>} $\Rightarrow$ Show logs for container
+	with matching ID.
 \end{itemize}
 
 \end{document}
