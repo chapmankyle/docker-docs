@@ -94,6 +94,15 @@ replace the \texttt{5}.
 	\includegraphics[scale=0.5]{network.png}
 \end{figure}
 
+When using \texttt{--network=host}, the port used to access the docker container
+is also the same port used to access the website from outside the container,
+without needing to map any ports. However, you may not have more than one of the
+same image on the same port.
+
+\vspace{0.8em}
+When using \texttt{--network=none}, the container is isolated from the network
+and cannot be accessed from outside the docker container.
+
 \section{Commands}
 
 Prefix all the following commands with \texttt{\bc{darkblue}{docker}}:
@@ -155,12 +164,24 @@ Examples:
 	internal port, so that users outside of the docker host can access the app
 	using the \texttt{externalPort}, which would redirect to the
 	\texttt{internalPort} inside the docker host.
-	\item \texttt{run -v <localDir>:<dockerDir> <imageName>} $\Rightarrow$ Runs
+	\item \texttt{run -v <dir>:<dockerDir> <imageName>} $\Rightarrow$ Runs
 	a specific image and persists all changes to the \texttt{dockerDir}
-	directory to the \texttt{localDir} directory.
+	directory to the \texttt{dir} directory.
+	\begin{itemize}
+		\item If \texttt{dir} is not a complete path, i.e. \texttt{data-dir},
+		then docker will create a volume called \texttt{data-dir} in the
+		\texttt{/var/lib/docker/volumes} directory, if not already present. Known
+		as `\textbf{volume mounting}'.
+		\item If \texttt{dir} is a complete path, i.e. \texttt{/mnt/Desktop/data},
+		then docker will copy the contents of that directory into the
+		\texttt{dockerDir} directory. Known as `\textbf{bind mounting}'
+	\end{itemize}
 	\item \texttt{run -it <imageName>} $\Rightarrow$ Runs a specific image in
 	interactive mode (\texttt{-i}) with a pseudo-terminal (\texttt{-t}),
 	allowing for user input.
+	\item \texttt{run --mount type=<mountType>,source=<sourceDir>,target=<targetDir>
+	<imageName>} $\Rightarrow$ Preferred over using \texttt{-v} option as it
+	specifies the type of mounting and is easier to read.
 \end{itemize}
 
 \subsection{stop}
@@ -265,6 +286,31 @@ Example:
 \begin{itemize}
 	\item \texttt{push <hubUsername>/<appName>} $\Rightarrow$ Pushes the
 	generated image to Docker hub with the name \texttt{appName}.
+\end{itemize}
+
+\subsection{network}
+
+Used to manage the docker internal network architecture.
+
+\vspace{0.5em}
+Examples:
+\begin{itemize}
+	\item \texttt{network ls} $\Rightarrow$ Shows all the current networks.
+	\item \texttt{network create --driver <driverType> --subnet
+	<subnetMask>/<numSubnets> <networkName>} $\Rightarrow$ Creates a new network
+	of type \texttt{driverType} that uses internal IP addresses generated from
+	the \texttt{subnetMask} and named \texttt{networkName}.
+\end{itemize}
+
+\subsection{volume}
+
+Manages folders inside the docker container at \verb|/var/lib/docker/volumes/|.
+
+\vspace{0.5em}
+Example:
+\begin{itemize}
+	\item \texttt{volume create <directoryName>} $\Rightarrow$ Creates a folder
+	named \texttt{directoryName} inside the docker container.
 \end{itemize}
 
 \end{document}
